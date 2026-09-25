@@ -1,0 +1,42 @@
+---
+const { title, description = '和歌山高専生向けの非公式便利アプリ。授業スケジュール、寮食メニュー、行事、学則を確認できます。', html, css, detail = false } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(detail ? '/school-rules/' : Astro.url.pathname, site).href;
+const image = new URL('/og-image.png', site).href;
+---
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>{title}</title><meta name="description" content={description} />
+<link rel="canonical" href={canonical} /><meta name="theme-color" content="#007AFF" />
+<meta name="color-scheme" content="light dark" /><link rel="manifest" href="/manifest.json" />
+<link rel="icon" href="/icons/favicon-32.png" /><link rel="apple-touch-icon" href="/icons/icon-192.png" />
+<link rel="preload" href="/fonts/icons.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preconnect" href={new URL(import.meta.env.PUBLIC_API_BASE_URL || 'https://wakosen-app-api.yoking.dev').origin} crossorigin />
+<meta property="og:type" content="website" /><meta property="og:locale" content="ja_JP" />
+<meta property="og:title" content={title} /><meta property="og:site_name" content="和歌山高専 非公式アプリ" />
+<meta property="og:description" content={description} /><meta property="og:url" content={canonical} />
+<meta property="og:image" content={image} /><meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} /><meta name="twitter:image" content={image} />
+<script is:inline>
+try { const pref=localStorage.getItem('@react-native-async-storage/async-storage:colorScheme')||localStorage.getItem('colorScheme'); document.documentElement.dataset.theme=pref==='dark'||(pref!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; } catch {}
+</script>
+<style is:global set:html={css}></style>
+<style is:global>
+@font-face{font-family:MaterialCommunityIcons;src:url('/fonts/icons.woff2') format('woff2');font-display:block}
+html,body{margin:0;padding:0;height:100%;background:#F8FAFC;-webkit-text-size-adjust:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+html[data-theme=dark],html[data-theme=dark] body{background:#0B1120;color-scheme:dark}
+#app{height:100%;display:flex;flex-direction:column}*{box-sizing:border-box}
+.tabbar{display:flex;flex-shrink:0;height:80px;padding:10px 0 5px;border-top:1px solid;box-shadow:0 -2px 8px #0000001a}
+.tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.tab-icon{height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;transition:transform .15s ease}
+.tab-label{font-size:12px;font-weight:600;margin-top:2px;line-height:14px;white-space:nowrap}
+.markdown{font-size:15px;line-height:24px;letter-spacing:.15px;overflow-wrap:anywhere}.markdown p{margin:0 0 10px}.markdown img{max-width:100%;height:auto;border-radius:10px;margin:8px 0}.markdown .table-scroll{overflow-x:auto;margin:10px 0}.markdown table{border-collapse:collapse;min-width:560px;width:100%;border:1px solid var(--border);background:var(--surface)}.markdown td,.markdown th{border:1px solid var(--border);padding:8px 10px;text-align:left}.markdown th{background:var(--muted);font-weight:700}.markdown a{color:var(--tint)}.markdown blockquote{border-left:3px solid var(--tint);padding:6px 12px;margin:10px 0}.markdown pre{overflow:auto;padding:12px;background:var(--muted);border-radius:12px}.markdown h1{font-size:22px}.markdown h2{font-size:20px}.markdown h3{font-size:18px}
+@media(max-width:600px){.markdown{font-size:14px;line-height:22px}.markdown td,.markdown th{padding:6px 8px;font-size:13px}}
+</style>
+</head><body><main id="app" set:html={html}></main><noscript>最新データの取得と操作にはJavaScriptを有効にしてください。</noscript><slot />
+<script>
+if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/expo-service-worker.js').catch(console.warn));
+</script>
+</body></html>

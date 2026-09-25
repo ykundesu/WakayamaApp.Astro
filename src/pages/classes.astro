@@ -1,0 +1,9 @@
+---
+import Base from "@/layouts/Base.astro";
+import {prerender} from "@/platform/render";
+import Screen from "@/screens/classes";
+const {html,css}=prerender(Screen,"classes");
+---
+<Base title="予定｜和歌山高専 非公式アプリ" html={html} css={css} detail={false}>
+<script>requestAnimationFrame(()=>setTimeout(()=>import("@/entries/classes").then(m=>m.start()),0));</script>
+</Base>
