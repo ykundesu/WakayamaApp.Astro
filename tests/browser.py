@@ -114,6 +114,7 @@ with sync_playwright() as p:
  page.goto(BASE+'/meals',wait_until='networkidle')
  page.wait_for_function('navigator.serviceWorker.controller !== null',timeout=30000)
  await_cache=page.evaluate('caches.keys()');assert any(x.startswith('wakosen-astro-') for x in await_cache)
+ page.unroute(API+'/**')
  context.set_offline(True)
  page.reload(wait_until='domcontentloaded');page.wait_for_timeout(1200)
  expect(page.get_by_role('button',name='日付選択: 2026-01-27 (火)')).to_be_visible()
