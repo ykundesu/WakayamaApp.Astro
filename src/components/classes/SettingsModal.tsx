@@ -193,10 +193,10 @@ export function SettingsModal({
                       <Icon name="plus" size={22} color={Colors[colorScheme].icon} />
                     </DragSafeTouchableOpacity>
                     <View style={styles.settingValue}>
-                      <ThemedText style={[styles.settingLabel, { color: textColor, opacity: 0.6 }]}> 
+                      <ThemedText style={[styles.settingLabel, { color: textColor, opacity: 0.6 }]}>
                         学年
                       </ThemedText>
-                      <ThemedText style={[styles.settingText, { color: textColor }]}> 
+                      <ThemedText style={[styles.settingText, { color: textColor }]}>
                         {tempGrade}
                       </ThemedText>
                     </View>
@@ -369,7 +369,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   arrowBtn: {
-    padding: 8,
+    width: 44, height: 44,
+    alignItems: 'center', justifyContent: 'center',
     borderRadius: 8,
   },
   settingValue: {

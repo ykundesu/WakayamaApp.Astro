@@ -116,5 +116,5 @@ export function useClassesData({
 
   const resource=useApiResource(params.url,normalizeClasses);
   const loadClasses=useCallback(async (_showLoading:boolean)=>{},[]);
-  return {params,loading:resource.loading,error:resource.error,allData:resource.data||[],isCache:resource.status===0&&!!resource.data,lastUpdatedAt:null,refreshing:resource.loading,refetch:resource.refresh,loadClasses};
+  return {params,loading:resource.loading,error:resource.error,allData:resource.data||[],isCache:resource.failed&&!!resource.data,lastUpdatedAt:resource.updatedAt,refreshing:resource.loading,refetch:resource.refresh,loadClasses};
 }

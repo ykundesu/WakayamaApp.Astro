@@ -61,14 +61,6 @@ export function InitialSetupModal({ visible, onSave }: InitialSetupModalProps) {
     contentScale.setValue(0.94);
   }, [contentScale, visible]);
 
-  const overlayAnimatedStyle = useMountAnimation({
-    trigger: animationKey,
-    duration: 'slow',
-    easing: 'standard',
-    offset: 0,
-    fromOpacity: 0,
-  });
-
   const contentAnimatedStyle = useMountAnimation({
     trigger: animationKey,
     offset: 32,
@@ -92,7 +84,7 @@ export function InitialSetupModal({ visible, onSave }: InitialSetupModalProps) {
       animationType="fade"
       onRequestClose={() => {}}
     >
-      <Animated.View style={[styles.overlay, overlayAnimatedStyle]}>
+      <View testID="initial-setup-backdrop" style={styles.overlay}>
         <Animated.View
           style={[
             styles.content,
@@ -217,7 +209,7 @@ export function InitialSetupModal({ visible, onSave }: InitialSetupModalProps) {
             </ThemedText>
           </DragSafeTouchableOpacity>
         </Animated.View>
-      </Animated.View>
+      </View>
     </Modal>
   );
 }
@@ -225,6 +217,10 @@ export function InitialSetupModal({ visible, onSave }: InitialSetupModalProps) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
+    position: 'absolute',
+    top: 0, right: 0, bottom: 0, left: 0,
+    width: '100%',
+    height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',

@@ -110,7 +110,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   dateNavBtn: {
-    padding: 8,
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 20,
   },
   disabledNavBtn: {
