@@ -74,7 +74,7 @@ with sync_playwright() as p:
  expect(page.get_by_text('404｜この日の寮食データはありません',exact=True)).not_to_be_visible()
  record('再読み込みで復旧')
  page.goto(BASE+'/settings',wait_until='networkidle')
- page.get_by_text('ダーク',exact=True).click()
+ page.get_by_role('radio',name='ダーク',exact=True).check()
  page.wait_for_function("document.documentElement.dataset.theme==='dark'")
  assert page.evaluate("localStorage.getItem('colorScheme')")=='dark'
  page.screenshot(path=str(OUT/'settings-dark-mobile.png'))

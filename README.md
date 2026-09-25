@@ -65,15 +65,16 @@ npm run build
 python -m pip install playwright
 python -m playwright install chromium
 npm run test:browser
+npm run test:ux
 ```
 
-ブラウザテストは4347/3001番ポートを使用します。寮食404、キャッシュ破棄と復旧、タブ状態保持、API再検証、個人予定保存、テーマ、ビルド後の学則追加、OGP、PWAオフラインを確認します。結果はGit管理外の `test-results/` に出力します。GitHub Actionsでも同じ検証を行います。
+ブラウザテストは4347/3001番ポートを使用します。寮食404、キャッシュ破棄と復旧、タブ状態保持、API再検証、個人予定保存、テーマ、ビルド後の学則追加、OGP、PWAオフラインを確認します。結果はGit管理外の `test-results/` に出力します。`test:ux` ではキャッシュ再検証時の表示、タブ読み込み、設定の操作、今日への即時スクロール、モーダルの暗幕、アイコンの描画位置も確認します。GitHub Actionsでも同じ検証を行います。
 
 性能の測定条件・結果とアセット調査は [PERFORMANCE.md](PERFORMANCE.md) を参照してください。0.5秒は初期表示の目標であり、回線・端末・API応答を含めた保証値ではありません。
 
 ## アセットの保守
 
-通常ビルドには生成済みアセットを使用します。アイコンを追加するときは `src/platform/icon-glyphs.json` に対応コードポイントを追加し、`pip install fonttools brotli` 後に `python scripts/subset-icons.py` で再生成します。PWAアイコンは `node scripts/optimize-icons.mjs` で生成できます。元フォントは `assets/` にあり、サイトには配信しません。
+通常ビルドには生成済みアセットを使用します。アイコンを追加するときは `src/platform/icon-glyphs.json` に対応コードポイントを追加し、`pip install fonttools brotli` 後に `python scripts/subset-icons.py` で再生成します。PWAアイコンは `node scripts/optimize-icons.mjs` で生成できます。生成したフォントは `src/platform/icons.woff2` にあり、配信時に内容ハッシュ付きURLになります。元フォントは `assets/` にあり、サイトには配信しません。
 
 ## ライセンス
 

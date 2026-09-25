@@ -1,4 +1,5 @@
 ---
+import iconFont from "@/platform/icons.woff2?url";
 const { title, description = '和歌山高専生向けの非公式便利アプリ。授業スケジュール、寮食メニュー、行事、学則を確認できます。', html, css, detail = false } = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(detail ? '/school-rules/' : Astro.url.pathname, site).href;
@@ -10,7 +11,7 @@ const image = new URL('/og-image.png', site).href;
 <link rel="canonical" href={canonical} /><meta name="theme-color" content="#007AFF" />
 <meta name="color-scheme" content="light dark" /><link rel="manifest" href="/manifest.json" />
 <link rel="icon" href="/icons/favicon-32.png" /><link rel="apple-touch-icon" href="/icons/icon-192.png" />
-<link rel="preload" href="/fonts/icons.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={iconFont} as="font" type="font/woff2" crossorigin />
 <link rel="preconnect" href={new URL(import.meta.env.PUBLIC_API_BASE_URL || 'https://wakosen-app-api.yoking.dev').origin} crossorigin />
 <meta property="og:type" content="website" /><meta property="og:locale" content="ja_JP" />
 <meta property="og:title" content={title} /><meta property="og:site_name" content="和歌山高専 非公式アプリ" />
@@ -22,9 +23,9 @@ const image = new URL('/og-image.png', site).href;
 <script is:inline>
 try { const pref=localStorage.getItem('colorScheme')||localStorage.getItem('@react-native-async-storage/async-storage:colorScheme'); document.documentElement.dataset.theme=pref==='dark'||(pref!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; } catch {}
 </script>
-<style is:global set:html={css}></style>
+<style is:global set:html={`@font-face{font-family:MaterialCommunityIcons;src:url("${iconFont}") format("woff2");font-display:block}`}></style>
+<style id="react-native-stylesheet" is:global set:html={css}></style>
 <style is:global>
-@font-face{font-family:MaterialCommunityIcons;src:url('/fonts/icons.woff2') format('woff2');font-display:block}
 html,body{margin:0;padding:0;height:100%;background:#F8FAFC;-webkit-text-size-adjust:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 html[data-theme=dark],html[data-theme=dark] body{background:#0B1120;color-scheme:dark}
 #app{height:100%;display:flex;flex-direction:column}*{box-sizing:border-box}

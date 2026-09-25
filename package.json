@@ -12,7 +12,8 @@
     "preview": "astro preview --host 127.0.0.1",
     "test": "node --test tests/*.test.mjs",
     "check": "tsc --noEmit",
-    "test:browser": "node scripts/test-browser.mjs"
+    "test:browser": "node scripts/test-browser.mjs",
+    "test:ux": "node scripts/test-browser.mjs tests/ux.py"
   },
   "dependencies": {
     "astro": "^7.3.3",

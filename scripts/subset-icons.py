@@ -19,4 +19,4 @@ for name in font.getGlyphOrder():
     bearing,old_min=original_bearings[name]
     font['hmtx'][name]=(advance,bearing+getattr(glyph,'xMin',0)-old_min)
 font.flavor='woff2'
-font.save(root/'public/fonts/icons.woff2')
+font.save(root/'src/platform/icons.woff2')
