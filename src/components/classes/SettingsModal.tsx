@@ -152,7 +152,7 @@ export function SettingsModal({
                 <View style={styles.horizontalSettings}>
                   {/* 年度（対象年度） */}
                   <View style={styles.settingColumn}>
-                    <DragSafeTouchableOpacity accessibilityLabel="年度を増やす" 
+                    <DragSafeTouchableOpacity accessibilityLabel="年度を増やす"
                       onPress={() => {
                         const fiscal = getFiscalYear();
                         const currentYear = tempYear ?? fiscal;
@@ -171,7 +171,7 @@ export function SettingsModal({
                         {tempYear ?? getFiscalYear()}
                       </ThemedText>
                     </View>
-                    <DragSafeTouchableOpacity accessibilityLabel="年度を減らす" 
+                    <DragSafeTouchableOpacity accessibilityLabel="年度を減らす"
                       onPress={() => {
                         const fiscal = getFiscalYear();
                         const currentYear = tempYear ?? fiscal;
@@ -186,7 +186,7 @@ export function SettingsModal({
 
                   {/* 学年 */}
                   <View style={styles.settingColumn}>
-                    <DragSafeTouchableOpacity accessibilityLabel="学年を増やす" 
+                    <DragSafeTouchableOpacity accessibilityLabel="学年を増やす"
                       onPress={() => setTempGrade(Math.min(5, tempGrade + 1))}
                       style={styles.arrowBtn}
                     >
@@ -200,7 +200,7 @@ export function SettingsModal({
                         {tempGrade}
                       </ThemedText>
                     </View>
-                    <DragSafeTouchableOpacity accessibilityLabel="学年を減らす" 
+                    <DragSafeTouchableOpacity accessibilityLabel="学年を減らす"
                       onPress={() => setTempGrade(Math.max(1, tempGrade - 1))}
                       style={styles.arrowBtn}
                     >
@@ -210,7 +210,7 @@ export function SettingsModal({
 
                   {/* クラス */}
                   <View style={styles.settingColumn}>
-                    <DragSafeTouchableOpacity accessibilityLabel="クラスを次へ" 
+                    <DragSafeTouchableOpacity accessibilityLabel="クラスを次へ"
                       onPress={() => {
                         const classes: StudentClass[] = ['A', 'B', 'C', 'D'];
                         const idx = classes.indexOf(tempClass);
@@ -228,7 +228,7 @@ export function SettingsModal({
                         {tempClass}
                       </ThemedText>
                     </View>
-                    <DragSafeTouchableOpacity accessibilityLabel="クラスを前へ" 
+                    <DragSafeTouchableOpacity accessibilityLabel="クラスを前へ"
                       onPress={() => {
                         const classes: StudentClass[] = ['A', 'B', 'C', 'D'];
                         const idx = classes.indexOf(tempClass);
@@ -242,7 +242,7 @@ export function SettingsModal({
 
                   {/* 学期 */}
                   <View style={styles.settingColumn}>
-                    <DragSafeTouchableOpacity accessibilityLabel="後期にする" 
+                    <DragSafeTouchableOpacity accessibilityLabel="後期にする"
                       onPress={() => setTempSemester('1')}
                       style={styles.arrowBtn}
                     >
@@ -256,7 +256,7 @@ export function SettingsModal({
                         {tempSemester === '0' ? '前期' : '後期'}
                       </ThemedText>
                     </View>
-                    <DragSafeTouchableOpacity accessibilityLabel="前期にする" 
+                    <DragSafeTouchableOpacity accessibilityLabel="前期にする"
                       onPress={() => setTempSemester('0')}
                       style={styles.arrowBtn}
                     >
