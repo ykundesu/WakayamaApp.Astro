@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { cachedJSON, requestJSON } from '@/data/api';
 import { useIsFocused } from '@/platform/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE_URL, apiUrl } from '@/constants/Api';
@@ -116,6 +117,12 @@ async function fetchSchoolRules(): Promise<SchoolRulesPayload> {
       }
       const json = await response.json();
       const payload = normalizePayload(json);
+      if (memoryCache) {
+        payload.rules = payload.rules.map(rule => {
+          const detail = memoryCache!.rules.find(old => old.id === rule.id);
+          return detail ? {...detail,...rule,sections:rule.sections ?? detail.sections,articles:rule.articles ?? detail.articles} : rule;
+        });
+      }
       memoryCache = payload;
       memoryTimestamp = Date.now();
       writeCache(payload).catch(() => {});
@@ -128,32 +135,6 @@ async function fetchSchoolRules(): Promise<SchoolRulesPayload> {
 
   inFlightPromise = promise;
   return promise;
-}
-
-async function fetchRuleDetail(ruleId: string): Promise<SchoolRule | null> {
-  // タイムアウト付きのフェッチ
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 12_000);
-  try {
-    const res = await fetch(RULE_DETAIL_URL(ruleId), { signal: controller.signal, cache: 'no-cache' });
-    if (!res.ok) {
-      if (res.status === 404) return null;
-      throw new Error(`規則の取得に失敗しました (status: ${res.status})`);
-    }
-    const json = await res.json();
-
-    // 返却形式に柔軟に対応
-    const candidate = (json && typeof json === 'object')
-      ? ((json.rule as unknown) ?? (json.data as unknown) ?? json)
-      : null;
-
-    if (isSchoolRule(candidate)) {
-      return candidate as SchoolRule;
-    }
-    return null;
-  } finally {
-    clearTimeout(timeoutId);
-  }
 }
 
 function buildIndexes(payload: SchoolRulesPayload | null) {
@@ -364,76 +345,33 @@ export function useSchoolRules() {
   );
 
   const ensureRuleLoaded = useCallback(async (ruleId: string): Promise<SchoolRule | null> => {
-    if (!ruleId) return null;
-
-    // 既に詳細が揃っているならそのまま返す
+    if (!ruleId || !focused) return null;
     const existing = rulesById.get(ruleId) ?? null;
-    if (revalidatedRules.current.has(ruleId) && existing && ((existing.sections && existing.sections.length > 0) || (existing.articles && existing.articles.length > 0))) {
-      return existing;
-    }
-
-    // 同一IDの重複フェッチを防ぐ
-    if (inFlightRulePromises.has(ruleId)) {
-      return inFlightRulePromises.get(ruleId)!;
-    }
-
-    const p = (async () => {
-      try {
-        const detail = await fetchRuleDetail(ruleId);
-        revalidatedRules.current.add(ruleId);
-        if (!detail) {
-          return existing; // 404等の場合は既存情報を返却
-        }
-
-        setPayload((prev) => {
-          if (!prev) {
-            // まだ全体ペイロードが未取得の場合は、最低限の形で構築
-            const minimal: SchoolRulesPayload = {
-              version: 'v1',
-              generatedAt: new Date().toISOString(),
-              chapters: [],
-              rules: [detail],
-            };
-            memoryCache = minimal;
-            memoryTimestamp = Date.now();
-            writeCache(minimal).catch(() => {});
-            return minimal;
-          }
-
-          // 既存のrulesにマージ（同一IDは置き換え）
-          const nextRules = [...prev.rules];
-          const idx = nextRules.findIndex((r) => r.id === detail.id);
-          if (idx >= 0) {
-            nextRules[idx] = { ...nextRules[idx], ...detail };
-          } else {
-            nextRules.push(detail);
-          }
-
-          // chapter.ruleIdsへの登録（存在すれば）
-          const nextChapters = [...prev.chapters];
-          const chIdx = nextChapters.findIndex((c) => c.id === detail.chapterId);
-          if (chIdx >= 0) {
-            const setIds = new Set(nextChapters[chIdx].ruleIds);
-            setIds.add(detail.id);
-            nextChapters[chIdx] = { ...nextChapters[chIdx], ruleIds: Array.from(setIds) };
-          }
-
-          const next: SchoolRulesPayload = { ...prev, rules: nextRules, chapters: nextChapters };
-          memoryCache = next;
-          memoryTimestamp = Date.now();
-          writeCache(next).catch(() => {});
-          return next;
-        });
-
-        return detail;
-      } finally {
-        inFlightRulePromises.delete(ruleId);
-      }
-    })();
-
-    inFlightRulePromises.set(ruleId, p);
-    return p;
-  }, [rulesById]);
+    if (revalidatedRules.current.has(ruleId)) return existing;
+    revalidatedRules.current.add(ruleId);
+    const url = RULE_DETAIL_URL(ruleId);
+    const detailOf = (raw: any): SchoolRule | null => {
+      const candidate = raw?.rule ?? raw?.data ?? raw;
+      return isSchoolRule(candidate) ? candidate : null;
+    };
+    const merge = (detail: SchoolRule) => setPayload(previous => {
+      const base = previous ?? memoryCache ?? {version:'v1',generatedAt:'',chapters:[],rules:[]};
+      const rules = [...base.rules];
+      const index = rules.findIndex(rule => rule.id === detail.id);
+      if (index < 0) rules.push(detail); else rules[index] = {...rules[index],...detail};
+      const next = {...base,rules};
+      memoryCache = next;
+      return next;
+    });
+    const cached = detailOf(cachedJSON(url));
+    if (cached) merge(cached);
+    try {
+      const response = await requestJSON(url);
+      const detail = detailOf(response.data);
+      if (detail) merge(detail);
+      return detail;
+    } catch { return cached ?? existing; }
+  }, [rulesById, focused]);
 
   return {
     payload,

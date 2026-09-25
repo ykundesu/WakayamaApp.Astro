@@ -456,8 +456,6 @@ export default function SchoolRuleDetailsScreen() {
   // 規則詳細が未ロードの場合は ruleId で詳細をフェッチ
   React.useEffect(() => {
     if (!ruleIdParam) return;
-    // すでに条文データがあるなら何もしない
-    if (rule && ((rule.sections && rule.sections.length > 0) || (rule.articles && rule.articles.length > 0))) return;
     ensureRuleLoaded(ruleIdParam).catch(() => {
       // 失敗してもここでは握りつぶし、上位の error 表示に委ねる
     });

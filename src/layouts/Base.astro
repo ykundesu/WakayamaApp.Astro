@@ -20,7 +20,7 @@ const image = new URL('/og-image.png', site).href;
 <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} /><meta name="twitter:image" content={image} />
 <script is:inline>
-try { const pref=localStorage.getItem('@react-native-async-storage/async-storage:colorScheme')||localStorage.getItem('colorScheme'); document.documentElement.dataset.theme=pref==='dark'||(pref!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; } catch {}
+try { const pref=localStorage.getItem('colorScheme')||localStorage.getItem('@react-native-async-storage/async-storage:colorScheme'); document.documentElement.dataset.theme=pref==='dark'||(pref!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; } catch {}
 </script>
 <style is:global set:html={css}></style>
 <style is:global>

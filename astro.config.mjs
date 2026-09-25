@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 const local = path => fileURLToPath(new URL(path, import.meta.url));
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://wakosen-app.yoking.dev', output: 'static',
+  build: { inlineStylesheets: 'always' },
   vite: {
     define: { global: 'globalThis', __DEV__: 'false', 'process.env.EXPO_OS': '"web"' },
     resolve: { alias: [

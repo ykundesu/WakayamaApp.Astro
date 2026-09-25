@@ -32,12 +32,17 @@ function Frame({ Screen, page: initialPage, params }: Route) {
         const nextRoute = {...next, Screen: Component};
         setPages(previous => ({...previous,[next.page]:nextRoute}));
         setRoute(nextRoute);
+        setBack(true);
       } catch { location.reload(); }
     };
     window.addEventListener('wakosen:navigate',change);
     window.addEventListener('popstate',change);
     return () => {window.removeEventListener('wakosen:navigate',change);window.removeEventListener('popstate',change);};
   }, []);
+  useEffect(() => {
+    const title = page === 'rule' ? '学則' : page === 'changelog' ? '変更履歴' : TAB_DEFINITIONS.find(tab=>tab.id===page)?.title || 'ホーム';
+    document.title = `${title}｜和歌山高専 非公式アプリ`;
+  }, [page]);
   const settings = useSettings();
   const [back,setBack]=useState(false);
   useEffect(()=>setBack(!!document.referrer&&new URL(document.referrer).origin===location.origin),[]);

@@ -20,6 +20,10 @@ with sync_playwright() as p:
  def api(route):
   path=urllib.parse.urlsplit(route.request.url).path;requests.append(path)
   if '/meals/' in path and mode['meals']=='404':route.fulfill(status=404,json={'error':'Not Found'});return
+  if path.endswith('/rules/added-after-build.json'):
+   data=page.request.get('http://127.0.0.1:3001/v1/school-rules/rules/r1.json').json()
+   data['rule']['id']='added-after-build';data['rule']['title']='API-only new rule'
+   route.fulfill(json=data);return
   response=page.request.get('http://127.0.0.1:3001'+path)
   if '/meals/' in path and mode['meals']=='missing':
    data=response.json()
@@ -70,7 +74,36 @@ with sync_playwright() as p:
  expect(page.get_by_text('404｜この日の寮食データはありません',exact=True)).not_to_be_visible()
  record('再読み込みで復旧')
  page.goto(BASE+'/settings',wait_until='networkidle')
- print('SETTINGS_CONTROLS',page.get_by_role('button').all_text_contents()[:30],flush=True)
+ page.get_by_text('ダーク',exact=True).click()
+ page.wait_for_function("document.documentElement.dataset.theme==='dark'")
+ assert page.evaluate("localStorage.getItem('colorScheme')")=='dark'
+ page.screenshot(path=str(OUT/'settings-dark-mobile.png'))
+ page.set_viewport_size({'width':1440,'height':1000})
+ page.screenshot(path=str(OUT/'settings-dark-desktop.png'))
+ page.get_by_role('tab',name='ホーム',exact=True).click()
+ expect(page.get_by_role('tab',name='ホーム',exact=True)).to_have_attribute('aria-selected','true')
+ assert page.evaluate("document.documentElement.dataset.theme")=='dark'
+ record('テーマ変更と既存localStorageキーへの保存・モバイル/デスクトップ表示')
+ page.goto(BASE+'/school-rules/added-after-build',wait_until='networkidle')
+ expect(page.get_by_text('API-only new rule',exact=True)).to_be_visible()
+ expect(page.get_by_text('Residents must attend mandatory dorm meetings.',exact=True)).to_be_visible()
+ record('ビルドに存在しない学則IDをAPIだけで追加・直接URL表示')
+ page.goto(BASE+'/classes',wait_until='networkidle')
+ page.get_by_label('予定を追加',exact=True).click()
+ page.get_by_placeholder('例: 自習、部活動、委員会など').fill('Astro保存確認')
+ page.get_by_text('09:00',exact=True).click()
+ page.get_by_label('時刻を決定',exact=True).click()
+ page.get_by_text('10:30',exact=True).click()
+ page.get_by_label('現在時刻を選択',exact=True).click()
+ page.get_by_label('時刻を決定',exact=True).click()
+ page.get_by_text('保存',exact=True).click()
+ page.wait_for_timeout(300)
+ stored=page.evaluate("JSON.parse(localStorage.getItem('@wakayama/schedules')||'[]')")
+ assert any(x['title']=='Astro保存確認' for x in stored),stored
+ page.reload(wait_until='networkidle')
+ expect(page.get_by_text('Astro保存確認',exact=True)).to_be_visible()
+ record('個人予定の追加・保存・再読み込み後の復元')
+ assert not errors,errors
  context.close()
  # Service worker receives real same-origin requests; mock only the external API.
  context=browser.new_context(viewport={'width':390,'height':844},timezone_id='Asia/Tokyo')
