@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { SettingsContext } from '@/contexts/SettingsContext';
-import { useColorScheme as useSystemColorScheme } from 'react-native';
+import { useSystemTheme } from './useSystemTheme';
 
 export function useColorScheme(): 'light' | 'dark' | null {
   const context = useContext(SettingsContext);
-  const systemColorScheme = useSystemColorScheme();
+  const systemColorScheme = useSystemTheme();
   
   if (context) {
     return context.actualColorScheme;

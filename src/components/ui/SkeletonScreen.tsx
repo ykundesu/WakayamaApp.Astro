@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { useColorScheme as useSystemColorScheme } from 'react-native';
+import { useColorScheme as useSystemColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { Spacing, Radius } from '@/constants/Design';
 

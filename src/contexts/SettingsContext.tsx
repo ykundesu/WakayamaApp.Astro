@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useColorScheme as useSystemColorScheme } from 'react-native';
+import { useSystemTheme } from '@/hooks/useSystemTheme';
 import { DEFAULT_TAB_LAYOUT, TAB_DEFINITIONS, TabId, TabLayoutItem } from '@/constants/Tabs';
 
 export type ColorScheme = 'light' | 'dark' | 'auto';
@@ -113,7 +113,7 @@ export function SettingsProvider({ children, initialColorScheme }: { children: R
   const [hasCompletedInitialSetup, setHasCompletedInitialSetupState] = useState<boolean>(false);
   const [tabLayout, setTabLayoutState] = useState<TabLayoutItem[]>(() => normalizeTabLayout(DEFAULT_TAB_LAYOUT));
   const [isLoading, setIsLoading] = useState(true);
-  const systemColorScheme = useSystemColorScheme();
+  const systemColorScheme = useSystemTheme();
 
   // 実際に適用されるカラースキーム
   const actualColorScheme: 'light' | 'dark' = 
