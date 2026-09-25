@@ -1,0 +1,36 @@
+{
+  "rule": {
+    "id": "r1",
+    "chapterId": "ch1",
+    "title": "Attendance",
+    "summary": "Basic attendance guidelines.",
+    "order": 1,
+    "pdfUrl": "",
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Required Presence",
+        "order": 1,
+        "articles": [
+          {
+            "id": "a1",
+            "label": "Article 1",
+            "body": "Residents must attend mandatory dorm meetings."
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Reporting Absences",
+        "order": 2,
+        "articles": [
+          {
+            "id": "a2",
+            "label": "Article 2",
+            "body": "Report any absence to the dorm manager in advance."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "day": 0,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Mathematics II", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "English II", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Physics II", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Programming II", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 1,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Chemistry II", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "Algebra II", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "World History", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Lab Work II", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 2,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Programming II", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "English II", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Physics II", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Workshop II", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 3,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Mathematics II", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "Biology II", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Engineering Basics II", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Physical Education", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 4,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "English II", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "Mathematics II", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Physics II", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Lab Work II", "teacher": "Staff D" }
+      ]
+    }
+  ]
+}

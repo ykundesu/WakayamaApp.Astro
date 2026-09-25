@@ -518,7 +518,7 @@ export default function SettingsScreen() {
     try {
       const keys = await AsyncStorage.getAllKeys();
       const targetKeys = keys.filter((key) =>
-        key.startsWith('cache_')
+        key.startsWith('cache_') || key.startsWith('wakosen-api-v1:')
       );
 
       if (targetKeys.length > 0) {
@@ -879,17 +879,6 @@ export default function SettingsScreen() {
               ? '左のハンドルを押したまま並び替えできます（上下の矢印でも調整可能）'
               : '上下の矢印で順番を調整できます'}
           </ThemedText>
-          {supportsDragReorder && NestableDraggableFlatList ? (
-            <NestableDraggableFlatList
-              data={tabItems}
-              keyExtractor={(item) => item.id}
-              onDragEnd={handleDragEnd}
-              renderItem={({ item, drag, isActive }) => renderTabRow({ item, drag, isActive })}
-              scrollEnabled={false}
-              activationDistance={8}
-              style={styles.tabList}
-            />
-          ) : (
             <View style={styles.tabList}>
               {tabItems.map((item) => (
                 <View key={item.id}>
@@ -897,7 +886,6 @@ export default function SettingsScreen() {
                 </View>
               ))}
             </View>
-          )}
         </Card>
       </ThemedView>
 

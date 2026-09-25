@@ -37,6 +37,6 @@ html[data-theme=dark],html[data-theme=dark] body{background:#0B1120;color-scheme
 </style>
 </head><body><main id="app" set:html={html}></main><noscript>最新データの取得と操作にはJavaScriptを有効にしてください。</noscript><slot />
 <script>
-if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/expo-service-worker.js').catch(console.warn));
+if ('serviceWorker' in navigator) window.addEventListener('load',()=>setTimeout(()=>navigator.serviceWorker.register('/expo-service-worker.js').catch(console.warn),5000));
 </script>
 </body></html>

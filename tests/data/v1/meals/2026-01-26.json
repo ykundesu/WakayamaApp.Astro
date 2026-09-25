@@ -1,0 +1,341 @@
+{
+  "week_start": "2026-01-26",
+  "menus": [
+    {
+      "date": "2026-01-26",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Rice",
+          "main": "Breakfast Set",
+          "subs": ["Miso soup", "Salad"],
+          "nutrition": {
+            "energyKcal": 480,
+            "proteinG": 18,
+            "fatG": 14,
+            "calciumMg": 210,
+            "saltG": 2.1
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Noodles",
+          "main": "Lunch Bowl",
+          "subs": ["Side veggies", "Fruit"],
+          "nutrition": {
+            "energyKcal": 650,
+            "proteinG": 24,
+            "fatG": 20,
+            "calciumMg": 180,
+            "saltG": 2.5
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Curry",
+          "main": "Dinner Plate",
+          "subs": ["Soup", "Dessert"],
+          "nutrition": {
+            "energyKcal": 720,
+            "proteinG": 28,
+            "fatG": 22,
+            "calciumMg": 260,
+            "saltG": 2.8
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-27",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Bread",
+          "main": "Toast and Eggs",
+          "subs": ["Yogurt", "Fruit"],
+          "nutrition": {
+            "energyKcal": 450,
+            "proteinG": 17,
+            "fatG": 12,
+            "calciumMg": 230,
+            "saltG": 1.9
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Rice",
+          "main": "Chicken Bowl",
+          "subs": ["Pickles", "Soup"],
+          "nutrition": {
+            "energyKcal": 670,
+            "proteinG": 26,
+            "fatG": 19,
+            "calciumMg": 170,
+            "saltG": 2.4
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Fish",
+          "main": "Grilled Fish Plate",
+          "subs": ["Salad", "Soup"],
+          "nutrition": {
+            "energyKcal": 700,
+            "proteinG": 30,
+            "fatG": 21,
+            "calciumMg": 250,
+            "saltG": 2.6
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-28",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Rice",
+          "main": "Rice and Omelette",
+          "subs": ["Miso soup", "Vegetables"],
+          "nutrition": {
+            "energyKcal": 470,
+            "proteinG": 16,
+            "fatG": 13,
+            "calciumMg": 200,
+            "saltG": 2.0
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Noodles",
+          "main": "Noodle Soup",
+          "subs": ["Side veggies", "Fruit"],
+          "nutrition": {
+            "energyKcal": 640,
+            "proteinG": 22,
+            "fatG": 18,
+            "calciumMg": 160,
+            "saltG": 2.3
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Curry",
+          "main": "Veggie Curry",
+          "subs": ["Soup", "Dessert"],
+          "nutrition": {
+            "energyKcal": 690,
+            "proteinG": 25,
+            "fatG": 20,
+            "calciumMg": 240,
+            "saltG": 2.7
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-29",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Bread",
+          "main": "Pancake Plate",
+          "subs": ["Fruit", "Yogurt"],
+          "nutrition": {
+            "energyKcal": 460,
+            "proteinG": 15,
+            "fatG": 12,
+            "calciumMg": 190,
+            "saltG": 1.8
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Rice",
+          "main": "Pork Bowl",
+          "subs": ["Soup", "Pickles"],
+          "nutrition": {
+            "energyKcal": 680,
+            "proteinG": 27,
+            "fatG": 21,
+            "calciumMg": 175,
+            "saltG": 2.4
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Fish",
+          "main": "Fish and Rice",
+          "subs": ["Salad", "Soup"],
+          "nutrition": {
+            "energyKcal": 710,
+            "proteinG": 29,
+            "fatG": 21,
+            "calciumMg": 255,
+            "saltG": 2.6
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-30",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Rice",
+          "main": "Rice and Fish",
+          "subs": ["Miso soup", "Salad"],
+          "nutrition": {
+            "energyKcal": 480,
+            "proteinG": 18,
+            "fatG": 14,
+            "calciumMg": 210,
+            "saltG": 2.0
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Noodles",
+          "main": "Udon Bowl",
+          "subs": ["Side veggies", "Fruit"],
+          "nutrition": {
+            "energyKcal": 640,
+            "proteinG": 22,
+            "fatG": 18,
+            "calciumMg": 160,
+            "saltG": 2.3
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Curry",
+          "main": "Chicken Curry",
+          "subs": ["Soup", "Dessert"],
+          "nutrition": {
+            "energyKcal": 730,
+            "proteinG": 29,
+            "fatG": 23,
+            "calciumMg": 265,
+            "saltG": 2.9
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-31",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Bread",
+          "main": "Morning Sandwich",
+          "subs": ["Fruit", "Yogurt"],
+          "nutrition": {
+            "energyKcal": 440,
+            "proteinG": 16,
+            "fatG": 11,
+            "calciumMg": 200,
+            "saltG": 1.7
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Rice",
+          "main": "Beef Bowl",
+          "subs": ["Soup", "Pickles"],
+          "nutrition": {
+            "energyKcal": 690,
+            "proteinG": 27,
+            "fatG": 22,
+            "calciumMg": 180,
+            "saltG": 2.5
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Fish",
+          "main": "Seafood Plate",
+          "subs": ["Salad", "Soup"],
+          "nutrition": {
+            "energyKcal": 705,
+            "proteinG": 28,
+            "fatG": 21,
+            "calciumMg": 250,
+            "saltG": 2.6
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-02-01",
+      "breakfast": [
+        {
+          "type": "breakfast",
+          "mainType": "Rice",
+          "main": "Weekend Rice Plate",
+          "subs": ["Miso soup", "Vegetables"],
+          "nutrition": {
+            "energyKcal": 470,
+            "proteinG": 17,
+            "fatG": 13,
+            "calciumMg": 205,
+            "saltG": 2.0
+          }
+        }
+      ],
+      "lunch": [
+        {
+          "type": "lunch",
+          "mainType": "Noodles",
+          "main": "Weekend Noodles",
+          "subs": ["Side veggies", "Fruit"],
+          "nutrition": {
+            "energyKcal": 630,
+            "proteinG": 21,
+            "fatG": 17,
+            "calciumMg": 155,
+            "saltG": 2.2
+          }
+        }
+      ],
+      "dinner": [
+        {
+          "type": "dinner",
+          "mainType": "Curry",
+          "main": "Weekend Curry",
+          "subs": ["Soup", "Dessert"],
+          "nutrition": {
+            "energyKcal": 700,
+            "proteinG": 26,
+            "fatG": 21,
+            "calciumMg": 245,
+            "saltG": 2.7
+          }
+        }
+      ]
+    }
+  ]
+}

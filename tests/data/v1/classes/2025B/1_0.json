@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "day": 0,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Mathematics I", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "English I", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Physics I", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Programming I", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 1,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Chemistry I", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "Algebra", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "History", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Lab Work", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 2,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Programming I", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "English I", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Physics I", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Workshop", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 3,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "Mathematics I", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "Biology", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Engineering Basics", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Physical Education", "teacher": "Staff D" }
+      ]
+    },
+    {
+      "day": 4,
+      "classes": [
+        { "start": "09:00", "end": "10:30", "name": "English I", "teacher": "Staff A" },
+        { "start": "10:40", "end": "12:10", "name": "Mathematics I", "teacher": "Staff B" },
+        { "start": "13:10", "end": "14:40", "name": "Physics I", "teacher": "Staff C" },
+        { "start": "14:50", "end": "16:20", "name": "Lab Work", "teacher": "Staff D" }
+      ]
+    }
+  ]
+}

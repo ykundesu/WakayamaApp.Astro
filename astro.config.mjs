@@ -4,7 +4,7 @@ const local = path => fileURLToPath(new URL(path, import.meta.url));
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://wakosen-app.yoking.dev', output: 'static',
   vite: {
-    define: { __DEV__: 'false', 'process.env.EXPO_OS': '"web"' },
+    define: { global: 'globalThis', __DEV__: 'false', 'process.env.EXPO_OS': '"web"' },
     resolve: { alias: [
       { find: '@', replacement: local('./src') },
       { find: /^react-native$/, replacement: 'react-native-web' },

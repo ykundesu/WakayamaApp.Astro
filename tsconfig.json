@@ -6,6 +6,36 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "expo-router": [
+        "src/platform/router.tsx"
+      ],
+      "expo-router/*": [
+        "src/platform/router.tsx"
+      ],
+      "react-native-reanimated": [
+        "src/platform/reanimated.ts"
+      ],
+      "@react-native-async-storage/async-storage": [
+        "src/platform/storage.ts"
+      ],
+      "@react-navigation/*": [
+        "src/platform/navigation.tsx"
+      ],
+      "react-native-safe-area-context": [
+        "src/platform/navigation.tsx"
+      ],
+      "@expo/vector-icons/*": [
+        "src/components/ui/AppIcon.tsx"
+      ],
+      "expo-clipboard": [
+        "src/platform/clipboard.ts"
+      ],
+      "expo-linking": [
+        "src/platform/linking.ts"
+      ],
+      "@react-native-community/datetimepicker": [
+        "src/platform/native-only.tsx"
       ]
     },
     "allowJs": true,

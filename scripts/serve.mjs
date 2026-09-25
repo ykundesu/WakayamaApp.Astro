@@ -17,4 +17,5 @@ createServer(async(req,res)=>{
   if(/text|javascript|json/.test(type)&&req.headers['accept-encoding']?.includes('br')){data=brotliCompressSync(data);res.setHeader('Content-Encoding','br');}
   res.end(data);
  }catch {res.writeHead(404,{'Content-Type':'text/html'});res.end(await readFile(resolve(root,'404.html')).catch(()=>Buffer.from('404')));}
-}).listen(Number(process.env.PORT||4321),'127.0.0.1',()=>console.log('Static preview at http://127.0.0.1:4321'));
+}).listen(Number(process.env.PORT||4347),'127.0.0.1',()=>console.log('Static preview at http://127.0.0.1:4347'));
+

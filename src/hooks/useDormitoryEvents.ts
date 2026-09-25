@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useIsFocused } from '@/platform/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { apiUrl } from '@/constants/Api';
@@ -116,7 +117,7 @@ async function fetchDormitoryEvents(url: string, fallbackYear: number, cacheKey:
   const timeoutId = setTimeout(() => controller.abort(), 12_000);
 
   try {
-    const res = await fetch(url, { signal: controller.signal });
+    const res = await fetch(url, { signal: controller.signal, cache: 'no-cache' });
     if (!res.ok) {
       throw new HttpStatusError(res.status);
     }
@@ -130,6 +131,7 @@ async function fetchDormitoryEvents(url: string, fallbackYear: number, cacheKey:
 }
 
 export function useDormitoryEvents(requestedYear?: number) {
+  const focused = useIsFocused();
   const academicYear = useMemo(() => requestedYear ?? getFiscalYear(), [requestedYear]);
   const [payload, setPayload] = useState<DormitoryEventsPayload | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -158,6 +160,7 @@ export function useDormitoryEvents(requestedYear?: number) {
       if (cached && mountedRef.current) {
         const normalized = normalizePayload(cached.data, academicYear);
         setPayload(normalized);
+        setLoading(false);
         setError(null);
         setErrorStatus(null);
       }
@@ -190,12 +193,12 @@ export function useDormitoryEvents(requestedYear?: number) {
     const bootstrap = async () => {
       await load(false);
     };
-    bootstrap();
-  }, [load]);
+    if (focused) bootstrap();
+  }, [load, focused]);
 
   const refetch = useCallback(async () => {
     await load(true);
-  }, [load]);
+  }, [load, focused]);
 
   return {
     academicYear: payload?.academic_year ?? academicYear,

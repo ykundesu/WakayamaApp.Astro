@@ -1,0 +1,22 @@
+{
+  "rule": {
+    "id": "r2",
+    "chapterId": "ch1",
+    "title": "Quiet Hours",
+    "summary": "Quiet hours are observed daily.",
+    "order": 2,
+    "pdfUrl": "",
+    "articles": [
+      {
+        "id": "a3",
+        "label": "Article 1",
+        "body": "Keep noise low from 22:00 to 06:00."
+      },
+      {
+        "id": "a4",
+        "label": "Article 2",
+        "body": "Use headphones for media during quiet hours."
+      }
+    ]
+  }
+}

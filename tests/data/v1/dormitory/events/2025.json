@@ -1,0 +1,11 @@
+{
+  "academic_year": 2025,
+  "events": [
+    { "date": "04/12", "grade": null, "name": "Dorm Welcome Day" },
+    { "date": "05/02", "grade": 1, "name": "Room Inspection" },
+    { "date": "06/05", "grade": null, "name": "Dorm Sports Night" },
+    { "date": "09/10", "grade": 3, "name": "Safety Drill" },
+    { "date": "12/15", "grade": null, "name": "Winter Social" },
+    { "date": "02/20", "grade": 5, "name": "Farewell Dinner" }
+  ]
+}

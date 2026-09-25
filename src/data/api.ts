@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useIsFocused } from '@/platform/navigation';
 const prefix = 'wakosen-api-v1:';
 const pending = new Map<string, Promise<{data: unknown; status: number}>>();
 export function cachedJSON<T>(url: string): T | null {
@@ -21,10 +22,12 @@ export async function requestJSON<T>(url: string): Promise<{data:T | null; statu
   return promise;
 }
 export function useApiResource<T>(url: string, normalize: (raw: any)=>T) {
+  const focused = useIsFocused();
   const initial = useCallback(()=>{const raw=cachedJSON(url); let data:T|null=null; try { if(raw!==null)data=normalize(raw); }catch{} return {url,data,status:0,error:null as string|null,loading:!data};},[url,normalize]);
   const [state,setState]=useState(initial);
   const [generation,setGeneration]=useState(0);
   useEffect(()=>{
+    if (!focused) return;
     let active=true;
     setState(initial());
     requestJSON(url).then(result=>{
@@ -35,7 +38,7 @@ export function useApiResource<T>(url: string, normalize: (raw: any)=>T) {
       setState(previous=>({...previous,error:previous.data?null:String(error.message||error),loading:false}));
     });
     return ()=>{active=false;};
-  },[url,generation,initial,normalize]);
+  },[url,generation,initial,normalize,focused]);
   const visible=state.url===url?state:initial();
   const refresh=useCallback(async()=>{setGeneration(n=>n+1);await requestJSON(url).catch(()=>{});},[url]);
   return {...visible,refresh};

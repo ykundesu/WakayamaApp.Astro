@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { useIsFocused } from '@/platform/navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE_URL, apiUrl } from '@/constants/Api';
 import {
@@ -12,7 +13,7 @@ import {
 const SCHOOL_RULES_URL = apiUrl('/school-rules/index.json');
 const RULE_DETAIL_URL = (ruleId: string) => apiUrl(`/school-rules/rules/${ruleId}.json`);
 const CACHE_KEY = `cache_school_rules_v1:${API_BASE_URL}`;
-const CACHE_TTL_MS = 0; // 24h
+const CACHE_TTL_MS = 0; // Revalidate on each screen visit.
 
 type CachedPayload = {
   timestamp: number;
@@ -108,7 +109,7 @@ async function fetchSchoolRules(): Promise<SchoolRulesPayload> {
   const promise = (async () => {
     try {
       const response = await fetch(SCHOOL_RULES_URL, {
-        signal: controller.signal
+        signal: controller.signal, cache: 'no-cache'
       });
       if (!response.ok) {
         throw new Error(`学則データの取得に失敗しました (status: ${response.status})`);
@@ -134,7 +135,7 @@ async function fetchRuleDetail(ruleId: string): Promise<SchoolRule | null> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 12_000);
   try {
-    const res = await fetch(RULE_DETAIL_URL(ruleId), { signal: controller.signal });
+    const res = await fetch(RULE_DETAIL_URL(ruleId), { signal: controller.signal, cache: 'no-cache' });
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error(`規則の取得に失敗しました (status: ${res.status})`);
@@ -253,15 +254,19 @@ function buildSearchResults(
 }
 
 export function useSchoolRules() {
+  const focused = useIsFocused();
+  const revalidatedRules = useRef(new Set<string>());
   const [payload, setPayload] = useState<SchoolRulesPayload | null>(memoryCache);
   const [loading, setLoading] = useState<boolean>(!memoryCache);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!focused) return;
+    revalidatedRules.current.clear();
     let mounted = true;
 
     const bootstrap = async () => {
-      setLoading(true);
+      setLoading(!memoryCache);
       try {
         if (!memoryCache) {
           const cached = await readCache();
@@ -270,6 +275,7 @@ export function useSchoolRules() {
             memoryTimestamp = cached.timestamp;
             if (mounted) {
               setPayload(cached.data);
+              setLoading(false);
               setError(null);
             }
           }
@@ -303,11 +309,12 @@ export function useSchoolRules() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [focused]);
 
   const { rulesById, chaptersById } = useMemo(() => buildIndexes(payload), [payload]);
 
   const refetch = useCallback(async () => {
+    revalidatedRules.current.clear();
     setLoading(true);
     try {
       const data = await fetchSchoolRules();
@@ -361,7 +368,7 @@ export function useSchoolRules() {
 
     // 既に詳細が揃っているならそのまま返す
     const existing = rulesById.get(ruleId) ?? null;
-    if (existing && ((existing.sections && existing.sections.length > 0) || (existing.articles && existing.articles.length > 0))) {
+    if (revalidatedRules.current.has(ruleId) && existing && ((existing.sections && existing.sections.length > 0) || (existing.articles && existing.articles.length > 0))) {
       return existing;
     }
 
@@ -373,6 +380,7 @@ export function useSchoolRules() {
     const p = (async () => {
       try {
         const detail = await fetchRuleDetail(ruleId);
+        revalidatedRules.current.add(ruleId);
         if (!detail) {
           return existing; // 404等の場合は既存情報を返却
         }

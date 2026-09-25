@@ -1,0 +1,2 @@
+/school-rules/:ruleId /rule-detail/index.html 200
+/school-rules/:ruleId/ /rule-detail/index.html 200

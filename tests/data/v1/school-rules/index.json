@@ -1,0 +1,51 @@
+{
+  "version": "dev",
+  "generatedAt": "2026-01-29T00:00:00Z",
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "General",
+      "order": 1,
+      "ruleIds": ["r1", "r2"]
+    }
+  ],
+  "rules": [
+    {
+      "id": "r1",
+      "chapterId": "ch1",
+      "title": "Attendance",
+      "summary": "Basic attendance guidelines.",
+      "order": 1,
+      "pdfUrl": "",
+      "sections": [
+        {
+          "id": "s1",
+          "title": "Required Presence",
+          "order": 1,
+          "articles": [
+            {
+              "id": "a1",
+              "label": "Article 1",
+              "body": "Residents must attend mandatory dorm meetings."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "chapterId": "ch1",
+      "title": "Quiet Hours",
+      "summary": "Quiet hours are observed daily.",
+      "order": 2,
+      "pdfUrl": "",
+      "articles": [
+        {
+          "id": "a2",
+          "label": "Article 2",
+          "body": "Quiet hours run from 22:00 to 06:00."
+        }
+      ]
+    }
+  ]
+}

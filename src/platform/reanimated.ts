@@ -1,6 +1,6 @@
 import React from 'react';
 import {Animated as RNAnimated, Easing as RNEasing, FlatList, ScrollView, View} from 'react-native';
-function stripAnimationProps(props) {
+function stripAnimationProps(props: any) {
   if (!props) {
     return props;
   }
@@ -17,8 +17,8 @@ function stripAnimationProps(props) {
   return rest;
 }
 
-function createWrapper(Component) {
-  return React.forwardRef((props, ref) => React.createElement(Component, { ...stripAnimationProps(props), ref }));
+function createWrapper(Component: any) {
+  return React.forwardRef<any, any>((props, ref) => React.createElement(Component, { ...stripAnimationProps(props), ref }));
 }
 
 const AnimatedView = createWrapper(RNAnimated.View);
@@ -29,12 +29,12 @@ const AnimatedDefault = {
   View: AnimatedView,
   ScrollView: AnimatedScrollView,
   FlatList: AnimatedFlatList,
-  createAnimatedComponent(Component) {
+  createAnimatedComponent(Component: any) {
     return createWrapper(Component);
   },
 };
 
-function linearInterpolate(value, inputRange, outputRange) {
+function linearInterpolate(value: number, inputRange: number[], outputRange: number[]) {
   if (!Array.isArray(inputRange) || !Array.isArray(outputRange) || inputRange.length < 2 || outputRange.length < 2) {
     return outputRange?.[0] ?? value;
   }
@@ -57,8 +57,8 @@ function linearInterpolate(value, inputRange, outputRange) {
   return outputRange[outputRange.length - 1];
 }
 
-const chainableNoop = new Proxy(
-  function (...args) {
+const chainableNoop: any = new Proxy(
+  function (...args: any[]) {
     const callback = args[args.length - 1];
     if (typeof callback === 'function') {
       callback(true);
@@ -81,11 +81,11 @@ const chainableNoop = new Proxy(
   },
 );
 
-function useSharedValue(initialValue) {
+function useSharedValue<T>(initialValue: T) {
   return React.useRef({ value: initialValue }).current;
 }
 
-function useAnimatedStyle(updater) {
+function useAnimatedStyle<T>(updater: () => T) {
   return updater();
 }
 
@@ -97,30 +97,30 @@ function useScrollViewOffset() {
   return useSharedValue(0);
 }
 
-function withTiming(value, _config, callback) {
+function withTiming<T>(value: T, _config?: any, callback?: (done: boolean) => void) {
   if (typeof callback === 'function') {
     callback(true);
   }
   return value;
 }
 
-function withSequence(...values) {
+function withSequence<T>(...values: T[]) {
   return values[values.length - 1];
 }
 
-function withRepeat(value) {
+function withRepeat<T>(value: T, ..._options: any[]) {
   return value;
 }
 
-function withDelay(_delay, value) {
+function withDelay<T>(_delay: number, value: T) {
   return value;
 }
 
-function runOnJS(fn) {
-  return (...args) => fn(...args);
+function runOnJS(fn: (...args: any[]) => any) {
+  return (...args: any[]) => fn(...args);
 }
 
-function interpolateColor(value, inputRange, outputRange) {
+function interpolateColor(value: number, inputRange: number[], outputRange: string[]) {
   if (!Array.isArray(outputRange) || outputRange.length === 0) {
     return value;
   }
@@ -132,7 +132,7 @@ function interpolateColor(value, inputRange, outputRange) {
     : outputRange[0];
 }
 
-const transitionBuilder = new Proxy(
+const transitionBuilder: any = new Proxy(
   {},
   {
     get() {
