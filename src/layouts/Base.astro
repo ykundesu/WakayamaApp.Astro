@@ -21,15 +21,18 @@ const image = new URL('/og-image.png', site).href;
 <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} /><meta name="twitter:image" content={image} />
 <script is:inline>
-try { const pref=localStorage.getItem('colorScheme')||localStorage.getItem('@react-native-async-storage/async-storage:colorScheme'); document.documentElement.dataset.theme=pref==='dark'||(pref!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; } catch {}
+let pref;
+try { pref=localStorage.getItem('colorScheme')||localStorage.getItem('@react-native-async-storage/async-storage:colorScheme'); } catch {}
+document.documentElement.dataset.theme=pref==='dark'||(pref!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';
 </script>
 <style is:global set:html={`@font-face{font-family:MaterialCommunityIcons;src:url("${iconFont}") format("woff2");font-display:block}`}></style>
 <style id="react-native-stylesheet" is:global set:html={css}></style>
 <style is:global>
 html,body{margin:0;padding:0;height:100%;background:#F8FAFC;-webkit-text-size-adjust:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 html[data-theme=dark],html[data-theme=dark] body{background:#0B1120;color-scheme:dark}
+.initial-shell{flex:1;min-height:0;display:flex;flex-direction:column}.initial-dark{display:none}html[data-theme=dark] .initial-light{display:none}html[data-theme=dark] .initial-dark{display:flex}
 #app{height:100%;display:flex;flex-direction:column}*{box-sizing:border-box}
-.route-loading{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:14px;font-size:14px}.route-spinner{width:24px;height:24px;border:3px solid #94a3b833;border-radius:50%;animation:route-spin .7s linear infinite}@keyframes route-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.route-spinner{animation:none}}
+.route-loading{flex-direction:column;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:14px;font-size:14px}.route-spinner{width:24px;height:24px;border:3px solid #94a3b833;border-radius:50%;animation:route-spin .7s linear infinite}@keyframes route-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.route-spinner{animation:none}}
 .tabbar{display:flex;flex-shrink:0;height:80px;padding:8px 0;border-top:1px solid;box-shadow:0 -2px 8px #0000001a}
 .tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .tab-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;transition:transform .15s ease}

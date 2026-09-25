@@ -11,7 +11,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { IconSize, Radius, Spacing } from '@/constants/Design';
 import { getFiscalYear } from '@/utils/classesUtils';
-import { formatEventDate, getGradeLabel, resolveEventDate, startOfDay } from '@/utils/eventsUtils';
+import { getGradeLabel, resolveEventDate, startOfDay } from '@/utils/eventsUtils';
 import type { DormitoryEvent } from '@/types/dormitoryEvents';
 
 type UpcomingEventsProps = {
@@ -90,10 +90,6 @@ export function UpcomingEvents({
   }, [events, academicYear, today, userGrade]);
 
   const nextEvent = upcomingEvents[0] ?? null;
-  const daysUntil = nextEvent
-    ? Math.round((startOfDay(nextEvent.resolvedDate).getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-    : null;
-  const isUrgent = typeof daysUntil === 'number' && daysUntil >= 0 && daysUntil <= 7;
   const relativeLabel = nextEvent ? formatRelativeLabel(nextEvent.resolvedDate, today) : '';
   const isRelevant = nextEvent ? (nextEvent.grade === null || nextEvent.grade === userGrade) : false;
 
@@ -110,7 +106,7 @@ export function UpcomingEvents({
         styles.card,
         {
           backgroundColor: cardBackground,
-          borderColor: isUrgent ? dangerColor : borderColor,
+          borderColor,
         },
       ]}
       onPress={navigateToEvents}
@@ -124,7 +120,7 @@ export function UpcomingEvents({
         <Icon
           name="calendar-star"
           size={24}
-          color={isUrgent ? dangerColor : accentColorValue}
+          color={accentColorValue}
           accessibilityElementsHidden={true}
         />
         <ThemedText type="subtitle" style={styles.title}>行事</ThemedText>
@@ -174,22 +170,26 @@ export function UpcomingEvents({
             style={[
               styles.dateBadge,
               {
-                backgroundColor: isUrgent ? `${dangerColor}18` : `${accentColorValue}15`,
-                borderColor: isUrgent ? `${dangerColor}55` : `${accentColorValue}40`,
+                backgroundColor: `${accentColorValue}15`,
+                borderColor: `${accentColorValue}40`,
               },
             ]}
           >
-            <ThemedText style={[styles.dateText, { color: isUrgent ? dangerColor : accentColorValue }]}>
-              {formatEventDate(nextEvent.resolvedDate)}
+            <ThemedText style={{ fontSize: 12, lineHeight: 18, color: Colors[colorScheme].icon }}>
+              {nextEvent.resolvedDate.getMonth() + 1}月
             </ThemedText>
-            {relativeLabel ? (
-              <View style={[styles.relativeBadge, { backgroundColor: isUrgent ? dangerColor : accentColorValue }]}>
-                <ThemedText style={styles.relativeText}>{relativeLabel}</ThemedText>
-              </View>
-            ) : null}
+            <ThemedText style={[styles.dateText, { color: accentColorValue }]}>
+              {nextEvent.resolvedDate.getDate()}
+            </ThemedText>
+            <ThemedText style={{ fontSize: 12, lineHeight: 18, color: Colors[colorScheme].icon }}>
+              {['日', '月', '火', '水', '木', '金', '土'][nextEvent.resolvedDate.getDay()]}曜日
+            </ThemedText>
           </View>
           <View style={styles.eventDetails}>
-            <ThemedText type="defaultSemiBold" style={[styles.eventTitle, { color: textColor }]} numberOfLines={2}>
+            <ThemedText style={{ fontSize: 12, fontWeight: '700', color: accentColorValue, marginBottom: 4 }}>
+              {relativeLabel}
+            </ThemedText>
+            <ThemedText type="defaultSemiBold" style={[styles.eventTitle, { color: textColor }]}>
               {nextEvent.name}
             </ThemedText>
             <View style={styles.metaRow}>
@@ -212,12 +212,6 @@ export function UpcomingEvents({
                   {getGradeLabel(nextEvent.grade)}
                 </ThemedText>
               </View>
-              {isUrgent && (
-                <View style={[styles.urgentBadge, { backgroundColor: `${dangerColor}20`, borderColor: `${dangerColor}55` }]}>
-                  <Icon name="alert" size={IconSize.xs} color={dangerColor} style={{ marginRight: 4 }} />
-                  <ThemedText style={[styles.metaText, { color: dangerColor }]}>1週間以内</ThemedText>
-                </View>
-              )}
             </View>
           </View>
         </View>
@@ -279,29 +273,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 110,
+    width: 68,
+    flexShrink: 0,
   },
   dateText: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  relativeBadge: {
-    marginTop: Spacing.xs / 2,
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs / 2,
-    borderRadius: Radius.md,
-  },
-  relativeText: {
-    color: '#fff',
-    fontSize: 11,
+    fontSize: 30,
+    lineHeight: 36,
     fontWeight: '700',
   },
   eventDetails: {
     flex: 1,
-    marginLeft: Spacing.sm,
+    marginLeft: Spacing.md,
+    minWidth: 0,
   },
   eventTitle: {
-    fontSize: 16,
+    fontSize: 18,
+    lineHeight: 26,
     marginBottom: Spacing.xs / 2,
   },
   metaRow: {
@@ -318,14 +305,6 @@ const styles = StyleSheet.create({
     borderRadius: Radius.md,
     borderWidth: 1,
     backgroundColor: 'transparent',
-  },
-  urgentBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs / 2,
-    borderRadius: Radius.md,
-    borderWidth: 1,
   },
   metaText: {
     fontSize: 11,

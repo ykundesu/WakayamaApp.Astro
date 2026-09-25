@@ -245,14 +245,16 @@ export function App({
   Screen,
   page,
   params = {},
+  initialColorScheme,
 }: {
   Screen: React.ComponentType;
   page: string;
   params?: Record<string, any>;
+  initialColorScheme?: "light" | "dark";
 }) {
   return (
     <RouteContext.Provider value={params}>
-      <SettingsProvider>
+      <SettingsProvider initialColorScheme={initialColorScheme}>
         <ScheduleProvider>
           <Frame Screen={Screen} page={page} params={params} />
         </ScheduleProvider>

@@ -95,8 +95,15 @@ const normalizeTabLayout = (layout: TabLayoutItem[]): TabLayoutItem[] => {
   });
 };
 
-export function SettingsProvider({ children }: { children: React.ReactNode }) {
-  const [colorScheme, setColorSchemeState] = useState<ColorScheme>('auto');
+export function SettingsProvider({ children, initialColorScheme }: { children: React.ReactNode; initialColorScheme?: ColorScheme }) {
+  const [colorScheme, setColorSchemeState] = useState<ColorScheme>(() => {
+    if (initialColorScheme) return initialColorScheme;
+    try {
+      const saved = localStorage.getItem('colorScheme') || localStorage.getItem('@react-native-async-storage/async-storage:colorScheme');
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch { /* SSR or unavailable storage: follow the system. */ }
+    return 'auto';
+  });
   const [accentColor, setAccentColorState] = useState<AccentColor>('blue');
   const [privacyPolicy, setPrivacyPolicyState] = useState(false);
   const [admissionYear, setAdmissionYearState] = useState<number | null>(null);
