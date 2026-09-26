@@ -21,6 +21,7 @@ npm run dev        # http://127.0.0.1:4321
 | `npm run build` | `dist/` に静的サイトを出力（`npm run export` も同じ） |
 | `npm run preview` | ビルド結果を確認（学則詳細のrewriteは再現しない → [ローカル確認](#ローカルでビルド結果を確認する)） |
 | `npm run check` | TypeScriptの型チェック |
+| `npm run check:deploy` | ビルド済みの `dist/` を使ってWorkersデプロイをdry-run検証（アップロードなし） |
 | `npm test` | Node.jsの単体テスト |
 | `npm run test:browser` | Playwrightによる機能テスト（要ビルド・Python） |
 | `npm run test:ux` | Playwrightによる操作・表示テスト（要ビルド・Python） |
@@ -86,7 +87,33 @@ src/pages/*.astro ──(ビルド時)──> prerender(screens/*) ──> 静�
 - APIはService Workerでは保存せず、画面側のデータ層で管理します。未取得のデータと図版はオフラインでは表示できません。
 - 設定の「キャッシュ削除」はAPIデータだけを消し、個人予定と設定は残します。
 
-## デプロイ（Cloudflare Pages）
+## デプロイ（Cloudflare Workers / Pages）
+
+### Cloudflare Workers
+
+Workers BuildsのGit連携では、次の設定を使います。
+
+| 項目 | 設定 |
+| --- | --- |
+| ルートディレクトリ | リポジトリのルート |
+| Node.js | 24 |
+| ビルドコマンド | `npm run build` |
+| デプロイコマンド | `npx wrangler deploy` |
+
+[wrangler.jsonc](../wrangler.jsonc) の `assets.directory` で `dist/` を指定し、静的サイトとして配信します。Wranglerは開発依存とlockfileでバージョンを管理します。
+
+Wrangler設定がない状態で `wrangler deploy` を実行すると、Astroを自動検出してCloudflareアダプターを追加することがあります。これにより出力先が `dist/client/` へ変わると、`dist/_astro/` を使うビルド後処理が失敗します。このアプリでは静的配信用のWrangler設定を維持してください（[Cloudflare公式の静的Astroサイト向け設定](https://developers.cloudflare.com/workers/framework-guides/web-apps/astro/#if-you-have-a-static-site)）。
+
+ローカルでは次のコマンドで、アップロードせずにビルドとデプロイ設定を検証できます。
+
+```sh
+npm run build
+npm run check:deploy
+```
+
+`public/_redirects` の学則詳細は `/rule-detail/` へ200 rewriteします。`/rule-detail/index.html` を指定すると、CloudflareのHTML URL正規化で無効なルールと判定されるため、末尾スラッシュ付きのURLを使います。
+
+### Cloudflare Pages
 
 Git連携→ビルド→静的配信で運用します。Cloudflare Functions/SSRは使いません。
 
@@ -128,7 +155,7 @@ npm run test:ux
 | `test:ux` | キャッシュ再検証時の表示、タブ読み込み、設定の操作、今日への即時スクロール、モーダルの暗幕、アイコンの描画位置 |
 | `tests/theme.py` | テーマ切り替え（`node scripts/test-browser.mjs tests/theme.py`） |
 
-GitHub Actions（[.github/workflows/ci.yml](../.github/workflows/ci.yml)）はpushとPRで上記すべてをChromium・Firefoxで実行します。
+GitHub Actions（[.github/workflows/ci.yml](../.github/workflows/ci.yml)）はpushとPRで上記すべてをChromium・Firefoxで実行し、ビルド後にWorkersデプロイのdry-runも検証します。
 
 性能の測定条件と結果は [PERFORMANCE.md](../PERFORMANCE.md) を参照してください。0.5秒は初期表示の目標で、回線・端末・API応答を含めた保証値ではありません。
 
@@ -148,4 +175,3 @@ GitHub Actions（[.github/workflows/ci.yml](../.github/workflows/ci.yml)）はpu
 ## リリース
 
 `package.json` と `package-lock.json` の `version` を上げ（アプリ内の表示バージョンは `package.json` から読みます）、[src/constants/Changelog.ts](../src/constants/Changelog.ts) に変更点を追加します。変更履歴はアプリの設定画面に表示されます。
-

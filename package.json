@@ -12,6 +12,7 @@
     "preview": "astro preview --host 127.0.0.1",
     "test": "node --test tests/*.test.mjs",
     "check": "tsc --noEmit",
+    "check:deploy": "wrangler deploy --dry-run",
     "test:browser": "node scripts/test-browser.mjs",
     "test:ux": "node scripts/test-browser.mjs tests/ux.py"
   },
@@ -30,7 +31,8 @@
     "@types/react-native-web": "^0.19.0",
     "react-native": "^0.76.9",
     "sharp": "^0.35.4",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "wrangler": "4.136.3"
   },
   "overrides": {
     "image-size": "^2.0.4"

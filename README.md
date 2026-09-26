@@ -143,7 +143,7 @@ npm run build  # dist/ に静的サイトを出力
 
 データはブラウザから [公開API](https://wakosen-app-api.yoking.dev/v1) で取得するため、データの更新にサイトの再ビルドは不要です。
 
-構成、環境変数、キャッシュ方針、Cloudflare Pagesへのデプロイ、テスト、リリース手順は [開発者向けドキュメント](./docs/DEVELOPMENT.md) を、表示速度の測定結果は [PERFORMANCE.md](./PERFORMANCE.md) を参照してください。
+構成、環境変数、キャッシュ方針、Cloudflare Workers / Pagesへのデプロイ、テスト、リリース手順は [開発者向けドキュメント](./docs/DEVELOPMENT.md) を、表示速度の測定結果は [PERFORMANCE.md](./PERFORMANCE.md) を参照してください。
 
 ## 📄 ライセンス
 

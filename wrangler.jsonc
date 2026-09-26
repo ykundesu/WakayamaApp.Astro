@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "wakayamaapp-astro",
+  "compatibility_date": "2026-09-21",
+  // Keep Astro's static output: no Cloudflare adapter or Worker entrypoint.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
