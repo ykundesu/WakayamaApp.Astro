@@ -6,7 +6,7 @@
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fwakosen-app.yoking.dev&style=for-the-badge&label=Web)](https://wakosen-app.yoking.dev)
 [![CI](https://img.shields.io/github/actions/workflow/status/ykundesu/WakayamaApp.Astro/ci.yml?style=for-the-badge&logo=github&label=CI)](https://github.com/ykundesu/WakayamaApp.Astro/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/ykundesu/WakayamaApp.Astro?style=for-the-badge)](./LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Web%20%7C%20PWA-blue?style=for-the-badge&logo=pwa)
 
 **授業・寮食・寮の行事・学則を、スマホからすぐに確認できる和歌山高専の非公式アプリです。**
