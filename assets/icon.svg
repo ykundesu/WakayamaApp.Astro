@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>和歌山高専 非公式アプリ</title>
+  <desc>左白・右黄色の背景に、時間割の三本線と半円の皿、一本のフォークを組み合わせた四色のシンボル。</desc>
+  <path fill="#FAFBFC" d="M0 0h256v512H0z"/>
+  <path fill="#FFE7A6" d="M256 0h256v512H256z"/>
+  <!-- Image-generated concept: icon-reference.png. All foreground edges fit the maskable safe circle. -->
+  <g fill="#465D70">
+    <path d="M124 144h132v48H124a24 24 0 0 1 0-48Z"/>
+    <path d="M124 232h132v48H124a24 24 0 0 1 0-48Z"/>
+    <path d="M124 320h132v48H124a24 24 0 0 1 0-48Z"/>
+  </g>
+  <path fill="#E87942" d="M256 144a112 112 0 0 1 0 224v-48a64 64 0 0 0 0-128Z"/>
+  <g fill="none" stroke="#E87942" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="12" d="M390 168v48a20 20 0 0 0 40 0v-48m-20 0v67"/>
+    <path stroke-width="20" d="M410 235v109"/>
+  </g>
+</svg>

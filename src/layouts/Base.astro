@@ -10,7 +10,9 @@ const image = new URL('/og-image.png', site).href;
 <title>{title}</title><meta name="description" content={description} />
 <link rel="canonical" href={canonical} /><meta name="theme-color" content="#007AFF" />
 <meta name="color-scheme" content="light dark" /><link rel="manifest" href="/manifest.json" />
-<link rel="icon" href="/icons/favicon-32.png" /><link rel="apple-touch-icon" href="/icons/icon-192.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+<link rel="icon" type="image/svg+xml" sizes="any" href="/icons/icon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
 <link rel="preload" href={iconFont} as="font" type="font/woff2" crossorigin />
 <link rel="preconnect" href={new URL(import.meta.env.PUBLIC_API_BASE_URL || 'https://wakosen-app-api.yoking.dev').origin} crossorigin />
 <meta property="og:type" content="website" /><meta property="og:locale" content="ja_JP" />

@@ -2,7 +2,7 @@
 
 # 和歌山高専 非公式アプリ
 
-<img src="./assets/icon.png" alt="和歌山高専 非公式アプリのアイコン" width="128">
+<img src="./assets/icon.svg" alt="和歌山高専 非公式アプリのアイコン" width="128">
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fwakosen-app.yoking.dev&style=for-the-badge&label=Web)](https://wakosen-app.yoking.dev)
 [![CI](https://img.shields.io/github/actions/workflow/status/ykundesu/WakayamaApp.Astro/ci.yml?style=for-the-badge&logo=github&label=CI)](https://github.com/ykundesu/WakayamaApp.Astro/actions/workflows/ci.yml)
