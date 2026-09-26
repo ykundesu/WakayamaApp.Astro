@@ -350,9 +350,9 @@ export default function SettingsScreen() {
             </div>
             <div className="settings-actions">
               <a href="/changelog" onClick={followLink}>
-                <Icon name="history" size={21} />
+                <Icon name="information-outline" size={21} />
                 <span>
-                  変更履歴<small>バージョン {APP_VERSION}</small>
+                  バージョン<small>{APP_VERSION}</small>
                 </span>
                 <Icon name="chevron-right" size={20} />
               </a>
@@ -386,9 +386,7 @@ export default function SettingsScreen() {
               <div>
                 <h3>データのキャッシュ</h3>
                 <p>
-                  表示が古いときに削除できます。
-                  <br />
-                  個人予定と設定は残ります。
+                  端末内に保存されている授業と給食データを削除します。データは必要に応じて自動で再取得されます。自身で追加した予定やその他の設定は削除されません。
                 </p>
               </div>
               <button
