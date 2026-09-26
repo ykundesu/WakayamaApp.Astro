@@ -7,6 +7,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.2.0',
+    date: '2026-09-26',
+    changes: [
+      'フレームワークをReactNativeからAstroにリワークし、読み込み速度を高速化',
+    ],
+  },
+  {
     version: '1.1.3',
     date: '2026-06-21',
     changes: [
