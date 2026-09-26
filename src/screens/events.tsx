@@ -20,8 +20,12 @@ import "@/styles/events.css";
 const useBeforePaint =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 export default function EventsScreen() {
+  const [year, setYear] = useState(getFiscalYear);
+  return <EventsCalendar key={year} year={year} setYear={setYear} />;
+}
+function EventsCalendar({ year, setYear }: { year: number; setYear: (year: number) => void }) {
   const { events, loading, error, errorStatus, academicYear, refetch } =
-    useDormitoryEvents();
+    useDormitoryEvents(year);
   const s = useSettings();
   const palette = Colors[s.actualColorScheme];
   const focused = useIsFocused();
@@ -46,9 +50,9 @@ export default function EventsScreen() {
       const time = date.getTime();
       groups.set(time, [...(groups.get(time) || []), e]);
     }
-    if (!groups.has(today)) groups.set(today, []);
+    if (year === getFiscalYear() && !groups.has(today)) groups.set(today, []);
     return [...groups].sort(([a], [b]) => a - b);
-  }, [events, academicYear, mine, grade, today]);
+  }, [events, academicYear, mine, grade, today, year]);
   const jump = () => {
     const root = list.current;
     const target = marker.current;
@@ -89,12 +93,12 @@ export default function EventsScreen() {
       <header className="events-toolbar">
         <div>
           <span className="events-eyebrow">
-            {academicYear}年度 · 寮のカレンダー
+            寮のカレンダー
           </span>
           <h1>行事</h1>
         </div>
         <div className="events-tools">
-          <button onClick={jump} className="events-today-button">
+          <button onClick={() => year === getFiscalYear() ? jump() : setYear(getFiscalYear())} className="events-today-button">
             <Icon name="calendar-check" size={18} />
             今日
           </button>
@@ -108,6 +112,17 @@ export default function EventsScreen() {
           </button>
         </div>
       </header>
+      <div className="events-year-navigation">
+        <div>
+          <button aria-label="前の年度" onClick={() => setYear(year - 1)} disabled={year <= 1}>
+            <Icon name="chevron-left" size={20} />
+          </button>
+          <strong aria-live="polite">{year}年度</strong>
+          <button aria-label="次の年度" onClick={() => setYear(year + 1)} disabled={year >= getFiscalYear()}>
+            <Icon name="chevron-right" size={20} />
+          </button>
+        </div>
+      </div>
       <div className="events-filter">
         <span>日付順に表示</span>
         {grade !== null && (
@@ -146,6 +161,8 @@ export default function EventsScreen() {
               </p>
               <button onClick={refresh}>再読み込み</button>
             </div>
+          ) : days.length === 0 ? (
+            <div className="events-state">この年度の行事はありません</div>
           ) : (
             days.map(([time, items], i) => {
               const date = new Date(time);

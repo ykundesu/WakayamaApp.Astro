@@ -14,7 +14,10 @@ with sync_playwright() as p:
   path=urllib.parse.urlsplit(route.request.url).path
   if '/classes/' in path and mode['offline']:route.abort();return
   if '/dormitory/events/' in path:
+   year=int(path.rsplit('/',1)[-1].split('.')[0])
+   if year==2023:route.fulfill(status=404,json={});return
    data={'academic_year':2025,'events':[{'date':f'01/{d:02}','grade':None if d%2 else 1,'name':'寮生活についての説明会' if d==27 else '寮の行事 '+str(d)} for d in range(1,32)]+[{'date':'02/10','grade':1,'name':'学年集会'},{'date':'02/20','grade':None,'name':'避難訓練'}]}
+   data['academic_year']=year
    route.fulfill(json=data);return
   route.fulfill(response=page.request.get('http://127.0.0.1:3001'+path))
  page.route(API+'/**',api)
@@ -46,6 +49,20 @@ with sync_playwright() as p:
  page.set_viewport_size({'width':390,'height':844});page.get_by_role('button',name='今日',exact=True).click();page.screenshot(path=str(OUT/'ux-events-mobile.png'))
  page.locator('.events-scroll').evaluate('e=>e.scrollTop=0');page.get_by_role('tab',name='設定',exact=True).click();expect(page.get_by_role('heading',name='学生情報')).to_be_visible();page.get_by_role('tab',name='行事',exact=True).click();expect(page.locator('[data-today=true]')).to_be_visible()
  print('PASS: 今日の行事を含む日付へ即時スクロール・再入場でも実行',flush=True)
+ page.get_by_role('button',name='前の年度',exact=True).click()
+ expect(page.locator('.events-year-navigation strong')).to_have_text('2024年度')
+ expect(page.get_by_role('heading',name=re.compile(r'2025\s*1月'))).to_be_visible()
+ expect(page.locator('[data-today=true]')).to_have_count(0)
+ assert page.locator('.events-scroll').evaluate('e=>e.scrollTop')==0
+ page.screenshot(path=str(OUT/'ux-events-previous-year.png'))
+ page.get_by_role('button',name='前の年度',exact=True).click()
+ expect(page.get_by_role('heading',name='行事データはまだありません')).to_be_visible()
+ expect(page.locator('.events-item')).to_have_count(0)
+ page.get_by_role('button',name='今日',exact=True).click()
+ expect(page.locator('.events-year-navigation strong')).to_have_text('2025年度')
+ expect(page.locator('[data-today=true]')).to_be_visible()
+ expect(page.get_by_role('button',name='次の年度',exact=True)).to_be_disabled()
+ print('PASS: 過去年度のAPI取得・年度404・今日で現在年度へ復帰',flush=True)
  page.goto(BASE+'/classes',wait_until='networkidle');page.get_by_role('button',name=re.compile('2025年度 .*後期')).click();page.wait_for_timeout(400);page.screenshot(path=str(OUT/'ux-class-modal.png'))
  # One pointer activation must advance exactly one class; both semester arrows toggle.
  for name,expected in [('クラスを次へ','C'),('クラスを次へ','D'),('クラスを前へ','C')]:

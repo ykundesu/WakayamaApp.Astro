@@ -68,6 +68,30 @@
   font-size: 12px;
   color: var(--event-muted);
 }
+.events-year-navigation {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 28px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.events-year-navigation > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.events-year-navigation > div button {
+  width: 44px;
+  padding: 0;
+}
+.events-year-navigation strong {
+  white-space: nowrap;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
 .events-filter label {
   display: flex;
   align-items: center;
@@ -232,6 +256,9 @@
   color: var(--event-text);
 }
 @media (max-width: 600px) {
+  .events-year-navigation {
+    padding: 0 16px 14px;
+  }
   .events-toolbar {
     padding: 20px 16px 14px;
   }
