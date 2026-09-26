@@ -92,7 +92,7 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
   return (
     <section className="events-screen" style={vars} aria-label="行事一覧">
       <header className="events-toolbar">
-        <div>
+        <div className="events-title">
           <span className="events-eyebrow">
             寮のカレンダー
           </span>
@@ -112,7 +112,6 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
             <Icon name="refresh" size={21} />
           </button>
         </div>
-      </header>
       <div className="events-year-navigation">
         <div>
           <button aria-label="前の年度" onClick={() => setYear(year - 1)} disabled={year <= 1}>
@@ -125,7 +124,6 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
         </div>
       </div>
       <div className="events-filter">
-        <span>日付順に表示</span>
         {grade !== null && (
           <label>
             <input
@@ -140,6 +138,7 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
           </label>
         )}
       </div>
+      </header>
       <div className="events-scroll" ref={list} data-testid="events-scroll">
         <div className="events-timeline">
           {loading && events.length === 0 ? (
