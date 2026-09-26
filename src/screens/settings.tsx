@@ -87,7 +87,6 @@ export default function SettingsScreen() {
         <header className="settings-heading">
           <div>
             <h1>設定</h1>
-            <p>授業の表示や、いつもの使い方を整えましょう。</p>
           </div>
           <span className="settings-saved">
             <Icon name="check-circle" size={16} />
