@@ -60,7 +60,8 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
       root.scrollTop +=
         target.getBoundingClientRect().top -
         root.getBoundingClientRect().top -
-        16;
+        // Leave a glimpse of the preceding content so upward scrolling is apparent.
+        32;
   };
   useBeforePaint(() => {
     if (!focused) {

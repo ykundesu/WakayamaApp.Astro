@@ -44,7 +44,7 @@ with sync_playwright() as p:
  print('PASS: タブの即時ローディング・中心揃え・新設定の保存/非表示/並び替え',flush=True)
  page.get_by_role('tab',name='行事',exact=True).click();expect(page.locator('[data-today=true]')).to_be_visible();page.wait_for_timeout(300)
  pos=page.evaluate("(()=>{const r=document.querySelector('.events-scroll'),t=document.querySelector('[data-today=true]');return {scroll:r.scrollTop,delta:t.getBoundingClientRect().top-r.getBoundingClientRect().top,behavior:getComputedStyle(r).scrollBehavior}})()")
- assert pos['scroll']>200 and abs(pos['delta']-16)<3 and pos['behavior']=='auto',pos
+ assert pos['scroll']>200 and abs(pos['delta']-32)<3 and pos['behavior']=='auto',pos
  page.screenshot(path=str(OUT/'ux-events-desktop.png'))
  page.set_viewport_size({'width':390,'height':844});page.get_by_role('button',name='今日',exact=True).click();page.screenshot(path=str(OUT/'ux-events-mobile.png'))
  page.locator('.events-scroll').evaluate('e=>e.scrollTop=0');page.get_by_role('tab',name='設定',exact=True).click();expect(page.get_by_role('heading',name='学生情報')).to_be_visible();page.get_by_role('tab',name='行事',exact=True).click();expect(page.locator('[data-today=true]')).to_be_visible()
