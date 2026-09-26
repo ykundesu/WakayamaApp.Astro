@@ -86,7 +86,6 @@ export default function SettingsScreen() {
       <div className="settings-wrap">
         <header className="settings-heading">
           <div>
-            <span className="settings-eyebrow">アプリを自分に合わせる</span>
             <h1>設定</h1>
             <p>授業の表示や、いつもの使い方を整えましょう。</p>
           </div>
