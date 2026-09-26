@@ -1,7 +1,7 @@
-# Third-party notices
+# サードパーティに関する表記
 
-- `assets/materialcommunityicons-source.ttf` is the Material Design Icons font distributed with `@expo/vector-icons` in the original application. `src/platform/icons.woff2` is a modified subset of that font (only the codepoints in `src/platform/icon-glyphs.json`, converted to WOFF2). Font license: Apache 2.0; see `licenses/MaterialDesign.txt` and `licenses/Apache-2.0.txt`. Source: https://github.com/Templarian/MaterialDesign-Webfont
-- The icon glyph mapping originates from react-native-vector-icons. See `licenses/react-native-vector-icons.txt` (MIT, Joel Arvidsson).
-- The application's existing icon and screen components were carried over from https://github.com/ykundesu/WakayamaKosenApp .
-- Runtime/build dependencies retain the license files distributed in their npm packages. `package-lock.json` records exact dependency versions. React Native is a development dependency used for type declarations; Vite aliases runtime imports to React Native Web.
-- School documents, third-party figures and API data are fetched at runtime and are not licensed under this repository's MIT license.
+- `assets/materialcommunityicons-source.ttf` は、元のアプリケーションで `@expo/vector-icons` と共に配布されている Material Design Icons フォントです。`src/platform/icons.woff2` は、そのフォントの修正済みサブセットです（`src/platform/icon-glyphs.json` に含まれるコードポイントのみ抽出し、WOFF2 形式に変換したもの）。フォントのライセンス：Apache 2.0。`licenses/MaterialDesign.txt` および `licenses/Apache-2.0.txt` を参照してください。ソース：https://github.com/Templarian/MaterialDesign-Webfont
+- アイコンのグリフマッピングは react-native-vector-icons に由来します。`licenses/react-native-vector-icons.txt` を参照してください（MIT License, Joel Arvidsson）。
+- アプリケーションの既存のアイコンおよび画面コンポーネントは、https://github.com/ykundesu/WakayamaKosenApp から引き継がれたものです。
+- 実行時およびビルド時の依存関係については、それぞれの npm パッケージ内で配布されているライセンスファイルが適用されます。`package-lock.json` には正確な依存関係のバージョンが記録されています。React Native は型宣言のために使用されている開発依存関係（development dependency）であり、Vite は実行時のインポート先を React Native Web へ別名付け（エイリアス）します。
+- 学校のドキュメント、サードパーティの図表、および API データは実行時に取得されるものであり、本リポジトリの MIT ライセンスの適用対象外です。
