@@ -87,16 +87,19 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
     "--event-muted": palette.icon,
     "--event-border": palette.border,
     "--event-accent": accentColors[s.accentColor],
-    "--event-soft": palette.surfaceMuted,
   } as React.CSSProperties;
   return (
     <section className="events-screen" style={vars} aria-label="行事一覧">
       <header className="events-toolbar">
-        <div className="events-title">
-          <span className="events-eyebrow">
-            寮のカレンダー
-          </span>
-          <h1>行事</h1>
+        <h1>行事</h1>
+        <div className="events-year-navigation">
+          <button aria-label="前の年度" onClick={() => setYear(year - 1)} disabled={year <= 1}>
+            <Icon name="chevron-left" size={20} />
+          </button>
+          <strong aria-live="polite">{year}年度</strong>
+          <button aria-label="次の年度" onClick={() => setYear(year + 1)} disabled={year >= getFiscalYear()}>
+            <Icon name="chevron-right" size={20} />
+          </button>
         </div>
         <div className="events-tools">
           <button onClick={() => year === getFiscalYear() ? jump() : setYear(getFiscalYear())} className="events-today-button">
@@ -112,20 +115,8 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
             <Icon name="refresh" size={21} />
           </button>
         </div>
-      <div className="events-year-navigation">
-        <div>
-          <button aria-label="前の年度" onClick={() => setYear(year - 1)} disabled={year <= 1}>
-            <Icon name="chevron-left" size={20} />
-          </button>
-          <strong aria-live="polite">{year}年度</strong>
-          <button aria-label="次の年度" onClick={() => setYear(year + 1)} disabled={year >= getFiscalYear()}>
-            <Icon name="chevron-right" size={20} />
-          </button>
-        </div>
-      </div>
-      <div className="events-filter">
         {grade !== null && (
-          <label>
+          <label className="events-filter">
             <input
               type="checkbox"
               checked={mine}
@@ -137,7 +128,6 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
             自分の学年のみ <span>（{grade}年）</span>
           </label>
         )}
-      </div>
       </header>
       <div className="events-scroll" ref={list} data-testid="events-scroll">
         <div className="events-timeline">
@@ -202,6 +192,7 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
                       {items.length ? (
                         items.map((item, index) => (
                           <article className="events-item" key={index}>
+                            <h3>{item.name}</h3>
                             <div className="events-item-meta">
                               <span
                                 className={`events-grade ${grade !== null && item.grade === grade ? "is-mine" : ""}`}
@@ -214,7 +205,6 @@ function EventsCalendar({ year, setYear }: { year: number; setYear: (year: numbe
                                 </span>
                               )}
                             </div>
-                            <h3>{item.name}</h3>
                           </article>
                         ))
                       ) : (

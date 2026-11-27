@@ -9,7 +9,7 @@ import { useSettings } from '@/contexts/SettingsContext';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { IconSize, Radius, Spacing } from '@/constants/Design';
+import { Radius, Spacing } from '@/constants/Design';
 import { getFiscalYear } from '@/utils/classesUtils';
 import { getGradeLabel, resolveEventDate, startOfDay } from '@/utils/eventsUtils';
 import type { DormitoryEvent } from '@/types/dormitoryEvents';
@@ -26,15 +26,6 @@ type UpcomingEventsProps = {
 type ResolvedEvent = DormitoryEvent & {
   resolvedDate: Date;
 };
-
-function formatRelativeLabel(date: Date, today: Date): string {
-  const diffMs = startOfDay(date).getTime() - today.getTime();
-  const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
-  if (diffDays === 0) return '今日';
-  if (diffDays === 1) return '明日';
-  if (diffDays > 1) return `あと${diffDays}日`;
-  return '';
-}
 
 function computeUserGrade(params: {
   admissionYear: number | null;
@@ -90,8 +81,14 @@ export function UpcomingEvents({
   }, [events, academicYear, today, userGrade]);
 
   const nextEvent = upcomingEvents[0] ?? null;
-  const relativeLabel = nextEvent ? formatRelativeLabel(nextEvent.resolvedDate, today) : '';
-  const isRelevant = nextEvent ? (nextEvent.grade === null || nextEvent.grade === userGrade) : false;
+  const daysUntilEvent = nextEvent
+    ? Math.round((nextEvent.resolvedDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+    : Infinity;
+  const isSoon = daysUntilEvent <= 5;
+  const eventColor = isSoon ? (colorScheme === 'dark' ? '#FCA5A5' : '#991B1B') : textColor;
+  const eventAccent = isSoon ? eventColor : accentColorValue;
+  const eventMuted = isSoon ? eventColor : Colors[colorScheme].icon;
+  const urgentBackground = colorScheme === 'dark' ? '#451A24' : '#FEF2F2';
 
   const showLoading = loading && events.length === 0;
   const showError = Boolean(error) && events.length === 0;
@@ -105,8 +102,8 @@ export function UpcomingEvents({
       style={[
         styles.card,
         {
-          backgroundColor: cardBackground,
-          borderColor,
+          backgroundColor: isSoon ? urgentBackground : cardBackground,
+          borderColor: isSoon ? dangerColor : borderColor,
         },
       ]}
       onPress={navigateToEvents}
@@ -120,11 +117,11 @@ export function UpcomingEvents({
         <Icon
           name="calendar-star"
           size={24}
-          color={accentColorValue}
+          color={eventAccent}
           accessibilityElementsHidden={true}
         />
-        <ThemedText type="subtitle" style={styles.title}>行事</ThemedText>
-        <Icon name="chevron-right" size={20} color={Colors[colorScheme].icon} accessibilityElementsHidden={true} />
+        <ThemedText type="subtitle" style={[styles.title, { color: eventColor }]}>行事</ThemedText>
+        <Icon name="chevron-right" size={20} color={eventMuted} accessibilityElementsHidden={true} />
       </View>
 
       {showLoading && (
@@ -166,53 +163,27 @@ export function UpcomingEvents({
 
       {!showLoading && !showError && nextEvent && (
         <View style={styles.eventRow}>
-          <View
-            style={[
-              styles.dateBadge,
-              {
-                backgroundColor: `${accentColorValue}15`,
-                borderColor: `${accentColorValue}40`,
-              },
-            ]}
-          >
-            <ThemedText style={{ fontSize: 12, lineHeight: 18, color: Colors[colorScheme].icon }}>
+          <View style={styles.dateColumn}>
+            <ThemedText type="caption" style={{ color: eventMuted }}>
               {nextEvent.resolvedDate.getMonth() + 1}月
             </ThemedText>
-            <ThemedText style={[styles.dateText, { color: accentColorValue }]}>
+            <ThemedText style={[styles.dateText, { color: eventAccent }]}>
               {nextEvent.resolvedDate.getDate()}
             </ThemedText>
-            <ThemedText style={{ fontSize: 12, lineHeight: 18, color: Colors[colorScheme].icon }}>
+            <ThemedText type="caption" style={{ color: eventMuted }}>
               {['日', '月', '火', '水', '木', '金', '土'][nextEvent.resolvedDate.getDay()]}曜日
             </ThemedText>
           </View>
           <View style={styles.eventDetails}>
-            <ThemedText style={{ fontSize: 12, fontWeight: '700', color: accentColorValue, marginBottom: 4 }}>
-              {relativeLabel}
+            <ThemedText type="caption" style={[styles.relativeDate, { color: eventAccent }]}>
+              {daysUntilEvent === 0 ? '今日' : daysUntilEvent === 1 ? '明日' : `あと${daysUntilEvent}日`}
             </ThemedText>
-            <ThemedText type="defaultSemiBold" style={[styles.eventTitle, { color: textColor }]}>
+            <ThemedText type="defaultSemiBold" style={[styles.eventTitle, { color: eventColor }]}>
               {nextEvent.name}
             </ThemedText>
-            <View style={styles.metaRow}>
-              <View
-                style={[
-                  styles.metaBadge,
-                  {
-                    borderColor: isRelevant ? `${accentColorValue}40` : `${Colors[colorScheme].border}`,
-                    backgroundColor: isRelevant ? `${accentColorValue}10` : 'transparent',
-                  },
-                ]}
-              >
-                <Icon
-                  name="account-group"
-                  size={IconSize.xs}
-                  color={isRelevant ? accentColorValue : Colors[colorScheme].icon}
-                  style={{ marginRight: 4 }}
-                />
-                <ThemedText style={[styles.metaText, { color: isRelevant ? accentColorValue : textColor }]}>
-                  {getGradeLabel(nextEvent.grade)}
-                </ThemedText>
-              </View>
-            </View>
+            <ThemedText type="caption" style={{ color: eventMuted }}>
+              {getGradeLabel(nextEvent.grade)}
+            </ThemedText>
           </View>
         </View>
       )}
@@ -264,16 +235,12 @@ const styles = StyleSheet.create({
   },
   eventRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
-  dateBadge: {
-    paddingVertical: Spacing.xs,
-    paddingHorizontal: Spacing.sm,
-    borderRadius: Radius.lg,
-    borderWidth: 1,
+  dateColumn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 68,
+    minWidth: 44,
     flexShrink: 0,
   },
   dateText: {
@@ -283,7 +250,7 @@ const styles = StyleSheet.create({
   },
   eventDetails: {
     flex: 1,
-    marginLeft: Spacing.md,
+    marginLeft: Spacing.sm,
     minWidth: 0,
   },
   eventTitle: {
@@ -291,23 +258,8 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginBottom: Spacing.xs / 2,
   },
-  metaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: Spacing.xs,
-  },
-  metaBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.xs / 2,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    backgroundColor: 'transparent',
-  },
-  metaText: {
-    fontSize: 11,
+  relativeDate: {
     fontWeight: '700',
+    marginBottom: 4,
   },
 });
